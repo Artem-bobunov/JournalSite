@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% load static %}
+{% block container %}
+<style>
+   .card-header{
+   background:  #3498db;
+   }
+  </style>
+<div class="list-group list-group-flush">
+    <div class="card-header">
+		<div class = "row" style="color: #ffffff;">
+			<div class = "col"><h5 class="card-title">Подробная информация технической ошибки.</h5></div>
+			<div class = "col-2">Запись добавил: {{details.userbti}}</div>
+		</div>
+    </div>
+    <div class="card">
+        <div class="card-body ">
+            <table class="table table-hover table-bordered ">
+           <thead class="table-border">
+           <tr >
+               <th scope="col">#</th>
+               <th scope="col" width="57%">Общие сведения</th>
+               <th scope="col">Содержание</th>
+           <tr>
+           </thead>
+
+           <tbody>
+           <tr>
+              <th scope="row">1</th>
+              <td>№ пп</td>
+              <td>{{ details.npp|default_if_none:"&nbsp;"  }}</td>
+            </tr>
+            <tr>
+              <th scope="row">2</th>
+              <td>№ Входящий</td>
+              <td>{{ details.numberinput|default_if_none:"&nbsp;"  }}</td>
+            </tr>
+            <tr>
+              <th scope="row">3</th>
+              <td>Дата входящего</td>
+              <td>{{ details.dateInput|default_if_none:"&nbsp;"|date:'d.m.Y'  }}</td>
+            </tr>
+            <tr>
+              <th scope="row">4</th>
+              <td>Дата возникновения осноания для определения КС</td>
+              <td>{{ details.date1|default_if_none:"&nbsp;"|date:'d.m.Y'  }}</td>
+            </tr>
+            <tr>
+              <th scope="row">5</th>
+              <td>Вид объекта</td>
+              <td>{{ details.viewObject|default_if_none:"&nbsp;"  }}</td>
+            </tr>
+            <tr>
+              <th scope="row">6</th>
+              <td>Категория ЗУ</td>
+              <td>{{ details.categoryZU|default_if_none:"&nbsp;"  }}</td>
+            </tr>
+            <tr>
+              <th scope="row">7</th>
+              <td>Дата исх. № КП</td>
+              <td>{{ details.dateKP|default_if_none:"&nbsp;"|date:'d.m.Y'  }}</td>
+            </tr>
+           <tr>
+              <th scope="row">8</th>
+              <td>Номер исх. КП.</td>
+              <td>{{ details.numberKP|default_if_none:"&nbsp;"  }}</td>
+            </tr>
+           <tr>
+              <th scope="row">9</th>
+              <td>№ акта</td>
+              <td>{{ details.numberACT|default_if_none:"&nbsp;"  }}</td>
+            </tr>
+            <tr>
+              <th scope="row">10</th>
+              <td>Дата акта</td>
+              <td>{{ details.dateACT|default_if_none:"&nbsp;"|date:'d.m.Y'  }}</td>
+            </tr>
+           <tr>
+              <th scope="row">11</th>
+              <td>№ Решения</td>
+              <td>{{ details.numberSolution|default_if_none:"&nbsp;"  }}</td>
+            </tr>
+           <tr>
+              <th scope="row">12</th>
+              <td>Дата решения</td>
+              <td>{{ details.dateSolution|default_if_none:"&nbsp;"|date:'d.m.Y'  }}</td>
+            </tr>
+
+
+            <tr>
+              <th scope="row">13</th>
+              <td>Количество загруженных объектов</td>
+              <td>{{ details.countAllObj|default_if_none:"&nbsp;"  }}</td>
+            </tr>
+            <tr>
+              <th scope="row">14</th>
+              <td>Количество оцененных объектов</td>
+              <td>{{ details.countBalObj|default_if_none:"&nbsp;"  }}</td>
+            </tr>
+           <tr>
+              <th scope="row">15</th>
+              <td>Количество неоцененных объектов</td>
+              <td>{{ details.countNBObj|default_if_none:"&nbsp;"  }}</td>
+            </tr>
+           <tr>
+              <th scope="row">16</th>
+              <td>Дата отправки по ФЗ (срок 10 раб дней)</td>
+              <td>{{ details.dateSend|default_if_none:"&nbsp;"|date:'d.m.Y'  }}</td>
+            </tr>
+           <tr>
+              <th scope="row">17</th>
+              <td>Дата фактической отправки (3 дня после даты акта)</td>
+              <td>{{ details.dateFactSend|default_if_none:"&nbsp;"|date:'d.m.Y'  }}</td>
+            </tr>
+           <tr>
+              <th scope="row">18</th>
+              <td>Номер сопроводительного письма Учреждения</td>
+              <td>{{ details.sendMail|default_if_none:"&nbsp;"  }}</td>
+            </tr>
+           <tr>
+              <th scope="row">19</th>
+              <td>Количество объектов в XML</td>
+              <td>{{ details.countObjXML|default_if_none:"&nbsp;"  }}</td>
+            </tr>
+           <tr>
+              <th scope="row">20</th>
+              <td>Примечание</td>
+              <td>{{ details.note|default_if_none:"&nbsp;"  }}</td>
+            </tr>
+
+           </tbody>
+            </table>
+            {% if user.is_authenticated %}
+                <a type="button" class="btn btn-primary" href="{%url 'technical_error' %}">Назад</a>
+                <a type="button" class="btn btn-success" href="/technical_error_update/{{ details.id }}">Редактировать</a>
+            {% else %}
+                <a type="button" class="btn btn-primary" href="{%url 'technical_error' %}">Назад</a>
+            {%endif%}
+
+
+        </div>
+    </div>
+    </div>
+{%endblock%}

@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% block container %}
+<style>
+  .search{
+  margin-left: -30%;
+  margin-bottom: -40px
+  }
+   .table {
+    width: 600px; /* Ширина таблицы */
+    margin: auto; /* Выравниваем таблицу по центру окна  */
+   }
+   p.colich1 {
+    line-height: 1.5;
+    font-size:17px;
+    margin:0;
+
+   }
+   .search-btn{
+   margin-right:100px;
+   }
+   
+    
+   .td {
+    text-align: center; /* Выравниваем текст по центру ячейки */
+	 background: #3498db;
+   }
+   .th{
+   background: #3498db;
+   font-size:14px;
+	text-align:center;
+	border: 1px solid #fff;
+	color: #ffffff;
+   }
+   .btn_csv{
+   margin-left:400px;
+   }
+   
+</style>
+  <div class="shadow-lg p-3 mb-3 bg-white rounded">
+    <div class="container-fluid">
+      <div class="row">
+
+        <div class="col">
+          {% if counts%}
+            <p class="colich1">Общее количество всех/найденных технических ошибок: <span class="counter">{{counts}}</span></p>
+            {% endif%}
+        </div>
+
+        <div class="col">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary search-btn" data-toggle="modal" data-target="#exampleModalCentered">
+              Расширенный поиск
+            </button>
+
+            <!-- Modal -->
+            <div class="modal" id="exampleModalCentered" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenteredLabel" aria-hidden="true">
+              <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenteredLabel">Расширенный поиск</h5>
+                <button type="button" class="close " data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                <form method="get">
+                {{filter.form}}
+
+                <button class="btn btn-primary mt-1" type="submit">Поиск</button>
+                </form>
+                </div>
+
+              </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+    <table class="table table-hover table-bordered">
+      <thead class="table">
+        <tr>
+          <th class = "th"  ><center>№ п/п</center></th>
+          <th class = "th" ><center>Дата входящего</center></th>
+          <th class = "th"><center>Дата определения КС</center></th>
+          <th class = "th" ><center>Вид объекта</center></th>
+          <th class = "th" ><center>Категория ЗУ</center></th>
+
+          <th class = "th" ><center>Номер акта</center></th>
+          <th class = "th"><center>Дата акта</center></th>
+          <th class = "th" ><center>Номер решения</center></th> 
+          <th class = "th" ><center>Дата решения</center></th>
+
+
+
+
+        </tr>
+      </thead>
+      <tbody>
+      {% for i in pages%}
+        <tr>
+          <td ><a href="/technical_detail/{{i.id}}">{{ i.npp }}</a></td>
+          <td>{{i.dateInput|date:'d.m.Y'}}</td>
+          <td>{{i.date1|date:'d.m.Y'}}</td>
+          <td>{{i.viewObject}}</td>
+          <td>{{i.categoryZU}}</td>
+        
+          <td>{{i.numberACT}}</td>
+          <td>{{i.dateACT|date:'d.m.Y'}}</td>
+          <td>{{i.numberSolution}}</td>
+          <td>{{i.dateSolution|date:'d.m.Y'}}</td>
+
+        </tr>
+      {% endfor%}
+
+
+      </tbody>
+    </table>
+<div class="row">
+	<div class="col mt-2">
+		{% include 'pagination.html' with page=pages %}
+	</div>
+	<div class="col">
+			<a  href="{% url 'exportcsvTE' %}?{{request.GET.urlencode}}" style="">
+			<button type="button" class="button btn-success btn_csv mt-2">Выгрузить в csv</button></a>
+	</div>
+</div>
+
+
+
+{% endblock %}

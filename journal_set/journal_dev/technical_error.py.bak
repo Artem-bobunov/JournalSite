@@ -1,0 +1,95 @@
+from  .models import TechnicalError
+from django.shortcuts import render, redirect
+from . forms import TechnicalErrorForms
+from . filter import TechnicalErrorFilter
+from . filters import exportCSVTE
+from django.core.paginator import Paginator, PageNotAnInteger,EmptyPage
+from django.http import HttpResponseRedirect, HttpResponse
+import csv
+
+
+
+def exportcsvTE(request):
+    obj = TechnicalError.objects.all()
+    # id_build = Building.objects.latest('id').id
+    # print(id_build)
+    myFilter = exportCSVTE(request.GET, queryset=obj)
+    obj = myFilter.qs
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="TechnicalError.csv"'
+    writer = csv.writer(response)
+    writer.writerow(['№ пп', '№ Входящий', 'Дата входящего',
+                     'Дата возникновения основания для определения КС', 'Вид объекта','Категория ЗУ',
+                     'Дата исх. № КП','Номер исх. КП.', '№ акта','Дата акта','№ Решения','Дата решения',
+                     
+                     'Количество загруженных объектов',
+                     'Количество оцененных объектов','Количество неоцененных объектов', 'Дата отправки по ФЗ (срок 10 раб дней)',
+                     'Дата фактической отправки (3 дня после даты акта)', 'Номер сопроводительного письма Учреждения',
+                     'Количество объектов в XML', 'Примечание'
+                     ])
+
+    for e in obj.values_list('npp', 'numberinput', 'dateInput', 'date1','viewObject','categoryZU',
+                             'dateKP','numberKP','numberACT','dateACT','numberSolution','dateSolution',
+                             'countAllObj','countBalObj',
+                             'countNBObj', 'dateSend', 'dateFactSend', 'sendMail', 'countObjXML',
+                             'note'):
+        writer.writerow(e)
+    return response
+
+BLOG_POSTS_PER_PAGE =10
+def homeTE(request):
+    obj = TechnicalError.objects.all()
+    counts = TechnicalError.objects.count()
+    myFilter = TechnicalErrorFilter(request.GET, queryset=obj)
+    obj = myFilter.qs
+    paginator = Paginator(obj, BLOG_POSTS_PER_PAGE)
+    page_number = request.GET.get('page')
+    try:
+        pages = paginator.page(page_number)
+    except PageNotAnInteger:
+        pages = paginator.page(1)
+    except EmptyPage:
+        pages = paginator.page(paginator.num_pages)
+    return render(request, 'technical_error/home.html',{'obj':obj,'filter':myFilter,'pages':pages,'counts':counts})
+
+def createTE(request):
+    if request.method == "POST":
+        journal_form = TechnicalErrorForms(request.POST or None)
+        if journal_form.is_valid():
+            try:
+                journal_form.save()
+                print("Выполнилось")
+            except:
+                print("Не удалось сохранить")
+    else:
+        journal_form = TechnicalErrorForms()
+    return render(request,'technical_error/technical_error_create.html',{'form':journal_form})
+
+def detailTE(request,id):
+
+    if request.method=="GET":
+        try:
+            detail = TechnicalError.objects.get(id=id)
+        except:
+            print("Детали не работают")
+    return render(request,'technical_error/technical_detail.html',{'details':detail})
+
+def updateTE (request,id):
+
+    journal = TechnicalError.objects.get(id=id)
+    form1 = TechnicalErrorForms(instance=journal)
+    if request.method == 'POST':
+        form1 = TechnicalErrorForms(request.POST or None,instance = journal)
+        if form1.is_valid():
+                try:
+                    form1.save()
+                    print("Выполнилось")
+                    return redirect('technical_error/')
+
+                except Exception as e:
+                    print("Не удалось сохранить данные")
+        else:
+            form1 = TechnicalErrorForms()
+
+
+    return render(request, 'technical_error/technical_error_update.html', {'form': form1})

@@ -1,0 +1,182 @@
+{% extends "base.html" %}
+{% load static %}
+{% block container %}
+<style>
+   .layer {
+    height: 100px; /* Высота блока */
+    width: 450px; /* Ширина блока */
+    overflow: scroll; /* Добавляем полосы прокрутки */
+    /*background: #fc0;  Цвет фона */
+    padding: 7px; /* Поля вокруг текста */
+    border: 1px solid #333; /* Параметры рамки */
+   }
+   table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: left;
+}   
+</style>
+<div class="list-group list-group-flush">
+    <div class="card-header">
+        <h5 class="card-title">Подробная информация</h5>
+		<h6>  Запись добавил: {{details.userbti}}</h6>
+    </div>
+	<div class="card">
+        <div class="card-body ">
+			<h3>--------------------------</h3>
+
+			<table style="width:100%" class="table-striped">
+			  <tr >
+				<th ><center>Номер акта</center></th>
+				<th><center>Дата акта</center></th>
+				<th><center>Количество оцененных объектов</center></th>
+				<th><center>Количество не оцененных объектов</center></th>
+				<th><center>Другой регион</center></th>
+				<th><center>Отрицательная площадь</center></th>
+				<th><center>ЕНК</center></th>
+				<th><center>Условные</center></th>
+						  
+			  </tr>
+			  <tr>
+				<td><center>{{ details.numberACT|default_if_none:"&nbsp;"   }}</center></td>
+				<td><center>{{ details.dateACT|default_if_none:"&nbsp;"|date:'d.m.Y'  }}</center></td>
+				<td><center>{{ details.countBalObj|default_if_none:"&nbsp;" }}</center></td>
+				<td><center>{{ details.countNBObj|default_if_none:"&nbsp;"  }}</center></td>
+				<td><center>{{ details.anotherRegion|default_if_none:"&nbsp;"  }}</center></td>
+				<td><center>{{ details.negativeSquare|default_if_none:"&nbsp;"  }}</center></td>
+				<td><center>{{ details.ENK|default_if_none:"&nbsp;"  }}</center></td>
+				<td><center>{{ details.conditional|default_if_none:"&nbsp;"  }}</center></td>
+			  </tr>
+			</table>
+			
+			<h3>--------------------------</h3>
+			
+			<table style="width:100%" class="table-striped">
+			  <tr>
+				<th style="width:45%" >№ пп</th>
+				<td><center>{{ details.npp|default_if_none:"&nbsp;"}}</center></td>
+			  </tr>
+			  <tr>
+				<th style="width:45%" >№ Входящий</th>
+				<td><center>{{ details.numberinput|default_if_none:"&nbsp;"}}</center></td>
+			  </tr>
+			  <tr>
+				<th style="width:45%" >Дата входящего</th>
+				<td><center>{{ details.dateInput|default_if_none:"&nbsp;"|date:'d.m.Y'}}</center></td>
+			  </tr>
+			  <tr>
+				<th style="width:45%" >Дата возникновения основания для определения КС</th>
+				<td><center>{{ details.date1|default_if_none:"&nbsp;"|date:'d.m.Y'}}</center></td>
+			  </tr>
+			  <tr>
+				<th style="width:45%" >Вид объекта</th>
+				<td><center>{{details.viewObject|default_if_none:"&nbsp;"}}</center></td>
+			  </tr>
+			   <tr>
+				<th style="width:45%" >Категория ЗУ</th>
+				<td><center>{{details.categoryZU|default_if_none:"&nbsp;"}}</center></td>
+			  </tr>
+			   <tr>
+				<th style="width:45%" >Дата исх. № КП</th>
+				<td><center>{{details.dateKP|default_if_none:"&nbsp;"|date:'d.m.Y'}}</center></td>
+			  </tr>
+			   <tr>
+				<th style="width:45%" >Номер исх. КП.</th>
+				<td><center>{{details.numberKP|default_if_none:"&nbsp;"}}</center></td>
+			  </tr>
+			  <tr>
+				<th style="width:45%" >Количество загруженных объектов</th>
+				<td><center>{{details.countAllObj|default_if_none:"&nbsp;" }}</center></td>
+			  </tr>
+			  <tr>
+				<th style="width:45%" >Дата отправки по ФЗ (срок 10 раб дней)</th>
+				<td><center>{{details.dateSend|default_if_none:"&nbsp;"|date:'d.m.Y'}}</center></td>
+			  </tr>
+			  <tr>
+				<th style="width:45%" >Дата фактической отправки (3 дня после даты акта)</th>
+				<td><center>{{details.dateFactSend|default_if_none:"&nbsp;"|date:'d.m.Y'}}</center></td>
+			  </tr>
+			  <tr>
+				<th style="width:45%" >Номер сопроводительного письма Учреждения</th>
+				<td><center>{{details.sendMail|default_if_none:"&nbsp;"}}</center></td>
+			  </tr>
+			  <tr>
+				<th style="width:45%" >Количество объектов в XML</th>
+				<td><center>{{details.countObjXML|default_if_none:"&nbsp;"}} </center></td>
+			  </tr>
+			  <tr>
+				<th style="width:45%" >Примечание</th>
+				<td><center>{{details.note|default_if_none:"&nbsp;"}} </center></td>
+			  </tr>
+			  <tr>
+				<th style="width:45%" >Повторяющиеся объекты</th>
+				<td><center>{{details.duplicateObject|default_if_none:"&nbsp;"}} </center></td>
+			  </tr>
+			  <tr>
+				<th style="width:45%" >Б/К</th>
+				<td><center>{{ details.BK|default_if_none:"&nbsp;"  }} </center></td>
+			  </tr>
+			  <tr>
+				<th style="width:45%" >ЛФ</th>
+				<td><center>{{details.LF|default_if_none:"&nbsp;"  }} </center></td>
+			  </tr>
+			  <tr>
+				<th style="width:45%" >Б/К</th>
+				<td><center>{{ details.BK|default_if_none:"&nbsp;"  }} </center></td>
+			  </tr>
+			  <tr>
+				<th style="width:45%" >ПРОМ</th>
+				<td><center>{{ details.PROM|default_if_none:"&nbsp;"  }} </center></td>
+			  </tr>
+			  <tr>
+				<th style="width:45%" >Условные Ошибки (Номер объекта недвижимости)</th>
+				<td><center>{{ details.CE1|default_if_none:"&nbsp;"  }} </center></td>
+			  </tr>
+			  <tr>
+				<th style="width:45%" >ЕНК (Номер объекта недвижимости)</th>
+				<td><center>{{ details.ENK1|default_if_none:"&nbsp;"  }} </center></td>
+			  </tr>
+			  <tr>
+				<th style="width:45%" >Отрицательная площадь (Номер объекта недвижимости)</th>
+				<td><center>{{ details.NS1|default_if_none:"&nbsp;"  }} </center></td>
+			  </tr>
+			  <tr>
+				<th style="width:45%" >Другой регион (Номер объекта недвижимости)</th>
+				<td><center>{{ details.DR1|default_if_none:"&nbsp;"  }} </center></td>
+			  </tr>
+			  
+			</table>
+			{% if user.is_authenticated %}
+                <a type="button" class="btn btn-primary mt-3" href="{%url 'home' %}">Назад</a>
+                <a type="button" class="btn btn-success mt-3" href="/update/{{ details.id }}">Редактировать</a>
+                <!--<a type="button" class="btn btn-danger" href="/delete/{{ details.id }}">Удалить</a>-->
+            {% else %}
+                <a type="button" class="btn btn-primary" href="{%url 'home' %}">Назад</a>
+            {%endif%}
+		</div>
+	</div>
+	<!--<div class="card">
+        <div class="card-body ">
+            <table class="table table-hover">
+           <thead class="thead">
+       
+           
+            <tr>
+             
+              <th scope="row">30</th>
+              <td>Другой регион (Номер объекта недвижимости)</td>
+              <td>{{ details.DR1|default_if_none:"&nbsp;"  }}</td>
+            </tr>
+
+           </tbody>
+            </table>
+            
+
+
+        </div>
+    </div>-->
+    </div>
+{%endblock%}

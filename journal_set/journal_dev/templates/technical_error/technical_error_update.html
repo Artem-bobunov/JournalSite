@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block container %}
+<style>
+    .CE1 {
+    width: 300px;
+    height: 200px;
+}
+	
+</style>
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">Добавление записи в журнал по ст. 16</h5>
+    </div>
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <ul class="list-group" >
+              <li class="list-group-item"><h6>№ пп</h6>{{form.npp}}</li>
+              <li class="list-group-item"><h6>№ Входящий</h6> {{form.numberinput}}</li>
+              <li class="list-group-item"><h6>Дата входящего</h6> {{form.dateInput}}</li>
+              <li class="list-group-item"><h6>Дата возникновения осноания для определения КС</h6> {{form.dateInput}}</li>
+              <li class="list-group-item"><h6>Вид объекта</h6>{{form.viewObject}}</li>
+              <li class="list-group-item"><h6>Категория ЗУ</h6>{{form.categoryZU}}</li>
+              <li class="list-group-item"><h6>Дата исх. № КП.</h6>{{form.dateKP}}</li>
+              <li class="list-group-item"><h6>Номер исх. КП.</h6>{{form.numberKP}}</li>
+              <li class="list-group-item"><h6>№ акта</h6>{{form.numberACT}}</li>
+              <li class="list-group-item"><h6>Дата акта</h6>{{form.dateACT}}</li>
+               <li class="list-group-item"><h6>№ решения</h6>{{form.numberSolution}}</li>
+               <li class="list-group-item"><h6>Дата решения</h6>{{form.dateSolution}}</li>
+
+              <li class="list-group-item"><h6>Количество загруженных объектов</h6>{{form.countAllObj}}</li>
+              <li class="list-group-item"><h6>Количество оцененных объектов</h6>{{form.countBalObj}}</li>
+
+              <li class="list-group-item"><h6>Количество неоцененных объектов</h6>{{form.countNBObj}}</li>
+
+              <li class="list-group-item"><h6>Дата отправки по ФЗ (срок 10 раб дней)</h6>{{form.dateSend}}</li>
+              <li class="list-group-item"><h6>Дата фактической отправки (3 дня после даты акта)</h6>{{form.dateFactSend}}</li>
+
+                <li class="list-group-item"><h6>Номер сопроводительного письма Учреждения</h6>{{form.sendMail}}</li>
+              <li class="list-group-item"><h6>Количество объектов в XML</h6>{{form.countObjXML}}</li>
+
+              <li class="list-group-item"><h6>Примечание</h6>{{form.note}}</li>
+
+
+
+
+
+            </ul>
+            <button type="submit" class="btn btn-success">Сохранить</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

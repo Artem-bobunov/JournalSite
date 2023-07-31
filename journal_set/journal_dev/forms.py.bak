@@ -1,0 +1,81 @@
+from django.forms import *
+from django import forms
+from .models import Journal,TechnicalError
+
+class journalForms(ModelForm):
+    my_field = forms.BooleanField(initial=True)
+    class Meta:
+        model = Journal
+        fields = '__all__'
+        widgets = {
+            'npp': TextInput(attrs={'class': 'form-control','style':'width: 300px'}),
+            'numberinput': TextInput(attrs={'class': 'form-control','style':'width: 300px'}),
+            'dateInput': TextInput(attrs={'class': 'form-control','type': 'date','format':'%d.%m.%Y','style':'width: 300px'}),
+            'date1': TextInput(attrs={'class': 'form-control','type': 'date','format':'%d.%m.%Y','style':'width: 300px'}),
+            'viewObject': Select(attrs={'class': 'form-control','style':'width: 300px'}),
+            'categoryZU': Select(attrs={'class': 'form-control','style':'width: 300px'}),
+            'dateKP': TextInput(attrs={'class': 'form-control','type': 'date','format':'%d.%m.%Y','style':'width: 300px'}),
+
+            'numberKP': TextInput(attrs={'class': 'form-control','style':'width: 300px'}),
+            'numberACT': TextInput(attrs={'class': 'form-control','readonly': 'readonly','style':'width: 300px'}),
+            'dateACT': TextInput(attrs={'class': 'form-control','type': 'date','format':'%d.%m.%Y','style':'width: 300px'}),
+            'countAllObj': NumberInput(attrs={'class': 'form-control','style':'width: 300px'}),
+            'countBalObj': NumberInput(attrs={'class': 'form-control','style':'width: 300px'}),
+            'countNBObj': NumberInput(attrs={'class': 'form-control','style':'width: 300px'}),
+            'dateSend': TextInput(attrs={'class': 'form-control','type': 'date','format':'%d.%m.%Y','style':'width: 300px'}),
+            'dateFactSend': TextInput(attrs={'class': 'form-control','type': 'date','format':'%d.%m.%Y','style':'width: 300px'}),
+
+            'sendMail': TextInput(attrs={'class': 'form-control','style':'width: 300px'}),
+            'countObjXML': TextInput(attrs={'class': 'form-control','style':'width: 300px'}),
+            'note': TextInput(attrs={'class': 'form-control','style':'width: 300px'}),
+            'duplicateObject': TextInput(attrs={'class': 'form-control','style':'width: 300px'}),
+            'anotherRegion': TextInput(attrs={'class': 'form-control','style':'width: 300px'}),
+            'negativeSquare': TextInput(attrs={'class': 'form-control','style':'width: 300px'}),
+            'BK': TextInput(attrs={'class': 'form-control','style':'width: 50px'}),
+            'ZZ': TextInput(attrs={'class': 'form-control','style':'width: 50px'}),
+            'LF': TextInput(attrs={'class': 'form-control','style':'width: 50px'}),
+            'PROM': TextInput(attrs={'class': 'form-control','style':'width: 50px'}),
+            'ENK': TextInput(attrs={'class': 'form-control','style':'width: 50px'}),
+            'conditional': TextInput(attrs={'class': 'form-control','style':'width: 50px'}),
+            'CE1': TextInput(attrs={'class': 'form-control','style':'height: 60px'}),
+            'ENK1': TextInput(attrs={'class': 'form-control','style':'height: 60px'}),
+            'NS1': TextInput(attrs={'class': 'form-control','style':'height: 60px'}),
+            'DR1': TextInput(attrs={'class': 'form-control','style':'height: 60px'}),
+            'check': CheckboxInput(attrs={'class': 'required checkbox form-control','style':'width: 20px', 'name':'Сформировать'}),
+            'res':Select(attrs={'class':'form-control','style':'width: 300px'})
+        }
+
+
+class TechnicalErrorForms(ModelForm):
+    class Meta:
+        model = TechnicalError
+        fields = '__all__'
+        widgets = {
+            'npp': TextInput(attrs={'class': 'form-control'}),
+            'numberinput': TextInput(attrs={'class': 'form-control'}),
+            'dateInput': TextInput(attrs={'class': 'form-control','type': 'date','format':'%d.%m.%Y'}),
+            'date1': TextInput(attrs={'class': 'form-control','type': 'date','format':'%d.%m.%Y'}),
+            'viewObject': Select(attrs={'class': 'form-control'}),
+            'categoryZU': Select(attrs={'class': 'form-control'}),
+            'dateKP': TextInput(attrs={'class': 'form-control','type': 'date','format':'%d.%m.%Y'}),
+
+            'numberKP': TextInput(attrs={'class': 'form-control'}),
+            'numberACT': TextInput(attrs={'class': 'form-control'}),
+            'dateACT': TextInput(attrs={'class': 'form-control','type': 'date','format':'%d.%m.%Y'}),
+            'numberSolution': TextInput(attrs={'class': 'form-control'}),
+            'dateSolution': TextInput(attrs={'class': 'form-control', 'type': 'date', 'format': '%d.%m.%Y'}),
+
+            'countAllObj': TextInput(attrs={'class': 'form-control'}),
+            'countBalObj': TextInput(attrs={'class': 'form-control'}),
+            'countNBObj': TextInput(attrs={'class': 'form-control'}),
+            'dateSend': TextInput(attrs={'class': 'form-control','type': 'date','format':'%d.%m.%Y'}),
+            'dateFactSend': TextInput(attrs={'class': 'form-control','type': 'date','format':'%d.%m.%Y'}),
+
+            'sendMail': TextInput(attrs={'class': 'form-control'}),
+            'countObjXML': TextInput(attrs={'class': 'form-control'}),
+            'note': TextInput(attrs={'class': 'form-control'}),
+
+        }
+
+
+

@@ -1,0 +1,157 @@
+{% extends "base.html" %}
+
+{% block container %}
+<style>
+    .CE1 {
+    width: 300px;
+    height: 200px;
+}
+</style>
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">Добавление записи в журнал по ст. 16</h5>
+    </div>
+	
+
+    <div class="card-body">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+						
+
+            <ul class="list-group" >
+
+              <li class="list-group-item">
+			  <h6><b>Данную информацию заполняет отдел государственной кадастровой оценки объектов капитального строительства</b></h6>
+				  <div class = "row">
+					  <div class = "col mt-2">
+						<h6>Дата акта</h6>{{form.dateACT}}
+					  </div>
+					  <div class = "col mt-2">
+						<h6>Количество оцененных объектов</h6>{{form.countBalObj}}
+					  </div>
+					  <div class = "col mt-2">
+						<h6>Количество неоцененных объектов</h6>{{form.countNBObj}}
+					  </div>
+				  </div>
+				  <div class = "row">
+					  <div class = "col mt-2">
+						<h6>Другой регион</h6>{{form.anotherRegion}}
+					  </div>
+					  <div class = "col mt-2">
+						<h6>Отрицательная площадь</h6>{{form.negativeSquare}}
+					  </div>
+					  <div class="col-2 mt-2">
+						<h6 >ЕНК</h6>{{form.ENK}}
+					  </div>
+					  <div class="col-2 mt-2">
+						<h6>Условные</h6>{{form.conditional}}
+					  </div>
+					 
+				  </div>
+				  
+			  </li>
+			  <li class="list-group-item">
+			   <h6><b>Данную информацию заполняет отдел пространственных данных и информационного взаимодействоия</b></h6>
+			   <div class = "row">
+					   <div class="col">
+						 <h6>№ п/п</h6> {{form.npp}}
+					  </div>
+					  <div class="col">
+						<h6>№ Входящий</h6> {{form.numberinput}}
+					  </div>
+					  <div class="col">
+						<h6>Дата входящего</h6> {{form.dateInput}}
+					  </div>
+				  </div>
+				<div class = "row">
+					<div class="col">
+						<h6>Дата возникновения основания для определения КС</h6> {{form.date1}}
+					</div>
+					<div class="col mt-3">
+						<h6>Вид объекта</h6>{{form.viewObject}}
+					</div>
+					<div class="col mt-3">
+						<h6>Категория ЗУ</h6>{{form.categoryZU}}
+					</div>
+				</div>
+				<div class = "row">
+					<div class="col">
+						<h6>Номер исх. КП.</h6>{{form.dateKP}}
+					</div>
+					{% if form.numberACT != ' ' %}
+					<div class="col">
+						<h6>№ акта</h6>{{form.numberACT}}
+					</div>
+					
+					{% elif form.numberACT == 'АОКС-34/2022/000545' %}
+					<div class="col">
+						<h6>№ акта</h6>{{form.numberACT}}
+					</div>
+					<div class="col mt-3" >
+						Сформировать номер акта {{form.check}}
+					</div>
+					{% endif %}
+				</div>
+				<div class = "row">
+					<div class="col mt-3">
+						<h6>Количество загруженных объектов</h6>{{form.countAllObj}}
+					</div>
+					<div class="col mt-3">
+						<h6>Дата отправки по ФЗ (срок 10 раб дней)</h6>{{form.dateSend}}
+					</div>
+					<div class="col">
+						<h6>Дата фактической отправки (3 дня после даты акта)</h6>{{form.dateFactSend}}
+					</div>
+				</div>
+				<div class = "row">
+					<div class="col">
+						<h6>Номер сопроводительного письма Учреждения</h6>{{form.sendMail}}
+					</div>
+					<div class="col mt-3">
+						<h6>Примечание</h6>{{form.note}}
+					</div>
+					<div class="col mt-3">
+						<h6>Повторяющиеся объекты</h6>{{form.duplicateObject}}
+					</div>
+				</div>
+				
+			  </li>
+
+             <li class="list-group-item" ><b>Количество объектов по категориям</b> <br>
+             <div class="row">
+				<div class="col">
+                     <h6>Б/К</h6>{{form.BK}}
+                 </div>
+                 <div class="col">
+                     <h6 >ZZ</h6>{{form.ZZ}}
+                 </div>
+                 <div class="col">
+                     <h6 >ЛФ</h6>{{form.LF}}
+                 </div>
+                  <div class="col">
+                    <h6 >ПРОМ</h6>{{form.PROM}}
+                  </div>
+                 <div class="col">
+                    <h6 >ЕНК</h6>{{form.ENK}}
+                 </div>
+                 
+               </div>
+
+
+             <li class="list-group-item"><h6>Условные Ошибки (Номер объекта недвижимости)</h6>{{form.CE1}}</li>
+             <li class="list-group-item"><h6>ЕНК (Номер объекта недвижимости)</h6>{{form.ENK1}}</li>
+             <li class="list-group-item"><h6>Отрицательная площадь (Номер объекта недвижимости)</h6>{{form.NS1}}</li>
+             <li class="list-group-item"><h6>Другой регион (Номер объекта недвижимости)</h6>{{form.DR1}}</li>
+             <li class="list-group-item"><h6>Статус</h6>{{form.res}}</li>
+
+
+
+
+
+            </ul>
+            <button type="submit" class="btn btn-success mt-2">Сохранить</button>
+        </form>
+    </div>
+	</div>
+</div>
+{% endblock %}

@@ -1,0 +1,205 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block container %}
+
+<style>
+    .table{
+    background: #3498db;
+
+    }
+	th {
+	  font-size:14px;
+	  text-align:center;
+	  border: 1px solid #fff;
+	  border: 1px solid black;
+	  border-collapse: collapse;
+	}
+
+    .card{
+    background: #bec2c2;
+
+    }
+    .col {
+    width: 100px; /* Ширина ячейки */
+   }
+
+
+   .res_count{
+   margin-left: 150px;
+
+   }
+   p.colich1 {
+    line-height: 1.5;
+    font-size:15px;
+    margin:0;
+
+   }
+   .btn-sm {
+	margin-left: 250px;
+   }
+   table, th, td, tr {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 5px;
+    text-align: left;
+}
+
+</style>
+<div class="shadow-lg p-3 mb-3 bg-muted rounded">
+    <div class="container-fluid">
+      <div class="row">
+	<div class="col">
+						   <!-- Button trigger modal -->
+				<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCentered">
+				  Поиск по ст.16
+				</button>
+
+				<!-- Modal -->
+				<div class="modal" id="exampleModalCentered" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenteredLabel" aria-hidden="true">
+				  <div class="modal-dialog modal-dialog-centered" role="document">
+				  <div class="modal-content">
+					<div class="modal-header">
+					<h5 class="modal-title" id="exampleModalCenteredLabel">Расширенный поиск по ст.16</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					  <span aria-hidden="true">&times;</span>
+					</button>
+					</div>
+					<div class="modal-body">
+					<form method="get">
+					{{filter.form}}
+
+					<button class="btn btn-primary" type="submit">Поиск</button>
+					</form>
+					</div>
+
+				  </div>
+				  </div>
+				</div>
+		</div>
+
+        <!--<form class="form-inline" action="{% url 'search' %}" method="get">
+          <input class="form-control mr-sm-2" type="text" placeholder="Введите запрос" name="q">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Поиск</button>
+        </form>-->
+
+    <div class="col">
+        {% if counts%}
+        <p class="colich1"  >Общее количество всех/найденных заявлений: {{counts}}</p>
+        <p class="colich1"  >Количество объектов в XML: {{res_sum1}}</p>
+        <p class="colich1"  >Количество загруженных объектов:{{count_sum}}</p>
+        {% endif%}
+        {% if list_object %}
+        <p class="colich">Количество найденных заявлений:<span class="counter">{{count_oblect}}</span></p>
+        {% endif%}
+    </div>
+    <div class="col">
+        {% if counts%}
+            <p class="colich1">Количество оцененных объектов: {{count_L_arr}}</p>
+            <p class="colich1">Количество неоцененных объектов: {{count_M_arr}}</p>
+        {% endif%}
+    </div>
+
+    </div>
+
+</div></div>
+
+<table class="table-hover table-bordered">
+    
+        <thead class="table">
+            <tr>
+                  <th scope="col"><center><font color="#fcffff" > № п/п</font></center></th>
+                  <th scope="col"><center><font color="#fcffff" >Дата входящего</font></center></th>
+                  <th scope="col"><center><font color="#fcffff" >Дата определения КС</font></center></th>
+                  <th scope="col"><center><font color="#fcffff" >Вид объекта</font></center> </th>
+                  <th scope="col"> <center><font color="#fcffff" >Категория ЗУ</font></center></th>
+
+                  <th scope="col"><center><font color="#fcffff" >№ акта</font></center></th>
+                  <th scope="col"><center><font color="#fcffff" >Дата фактической отправки</font></center></th>
+                  <th scope="col"><center><font color="#fcffff" >Номер сопроводительного письма</font></center></th>
+                  <th scope="col"><center><font color="#fcffff" >Статус</font></center></th>
+
+            </tr>
+        </thead>
+
+        <tbody>
+        {% if pages %}
+        <!--Количество найденных заявлений: {{count_oblect}}-->
+            {% for ls in pages %}
+        <tr>
+                  <td><a href="/detail/{{ls.id}}">{{ ls.npp }}</a></td>
+                  <td>{{ ls.dateInput|default_if_none:"&nbsp;"|date:'d.m.Y'  }}</td>
+                  <td>{{ ls.date1|default_if_none:"&nbsp;"|date:'d.m.Y'  }}</td>
+                  <td>{{ ls.viewObject|default_if_none:"&nbsp;"  }}</td>
+                  <td>{{ ls.categoryZU|default_if_none:"&nbsp;"  }}</td>
+
+                  <td>{{ls.numberACT|default_if_none:""}}</td>
+				  <td><center>{{ contact.dateFactSend|default_if_none:"&nbsp;"|date:'d.m.Y'}}</center></td>
+				  <td>{{ ls.dateFactSend|default_if_none:"&nbsp;"|date:'d.m.Y'  }}</td>
+                  <td><center>{{ contact.sendMail|default_if_none:"&nbsp;"}}</center></td>
+				  
+
+
+              </tr>
+            {% endfor %}
+        {% endif%}
+        {% if page %}
+        {% for contact in page %}
+              <tr>
+                  <td><center><a href="/detail/{{contact.id}}">{{ contact.npp }}</a></center></td>
+                  <td><center>{{ contact.dateInput|default_if_none:"&nbsp;"|date:'d.m.Y'  }}</center></td>
+                  <td><center>{{ contact.date1|default_if_none:"&nbsp;"|date:'d.m.Y'  }}</center></td>
+                  <td><center>{{ contact.viewObject|default_if_none:"&nbsp;"  }}</center></td>
+                  <td><center>{{ contact.categoryZU|default_if_none:"&nbsp;"  }}</center></td>
+                  <td><center>{{contact.numberACT|default_if_none:""}}</center></td>
+				  <td><center>{{ contact.dateFactSend|default_if_none:"&nbsp;"|date:'d.m.Y'}}</center></td>
+                  <td><center>{{ contact.sendMail|default_if_none:"&nbsp;"}}</center></td>
+					<td>
+					{%if contact.res == 'Подготовлено' %}
+				  <div class="bg-success text-white">
+                  {{ contact.res|default_if_none:"&nbsp;"}}</td>
+				  </div>
+				  {%elif contact.res == 'На отправку' %}
+				  <div>
+                  {{ contact.res|default_if_none:"&nbsp;"}}</td>
+				  </div>
+				  {%elif contact.res == 'В работе' %}
+				  <div>
+                  {{ contact.res|default_if_none:"&nbsp;"}}</td>
+				  </div>
+				  </td>
+				  {% endif%}
+
+
+
+
+              </tr>
+              {% endfor %}
+        {% endif%}
+        </tbody>
+</table>
+{% if pages %}
+    {% include 'pagination.html' with page=pages  %}
+{% else %}
+	<div class="row">
+		<div class="col">
+		      {% include 'pagination.html' with page=page  %}
+		</div>
+		
+		<div class="col">
+			
+				<a class="btn btn-primary btn-sm" name="q" href="http://192.168.1.253:8001/media/{{file_download}}" download>Сформировать отчёт</a>
+		</div>
+		
+		
+		<div class="col-2">
+			<a  href="{% url 'exportcsv' %}?{{request.GET.urlencode}}" style="">
+			<button type="button" class="button btn-success" name="save_home">Выгрузить в csv</button></a>
+		</div>
+		
+	  </div>
+
+{% endif %}
+{% endblock %}
